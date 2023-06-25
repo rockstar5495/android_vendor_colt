@@ -1,6 +1,4 @@
-# Copyright (C) 2015 The CyanogenMod Project
-#           (C) 2017-2018 The LineageOS Project
-#           (C) 2023 The ColtOS Project
+# Copyright (C) 2021-2023 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,5 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Rules for QCOM targets
-include $(TOPDIR)vendor/colt/build/core/qcom_target.mk
+$(call inherit-product, build/target/product/sdk_phone_x86_64.mk)
+
+include vendor/colt/build/target/product/colt_generic_target.mk
+
+# Always build modules from source
+PRODUCT_MODULE_BUILD_FROM_SOURCE := true
+
+# Enable mainline checking
+PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := relaxed
+
+# Overrides
+PRODUCT_NAME := colt_sdk_phone_x86_64
+PRODUCT_MODEL := ColtOS Android SDK built for x86_64
+
+PRODUCT_SDK_ADDON_NAME := colt
+PRODUCT_SDK_ADDON_SYS_IMG_SOURCE_PROP := $(LOCAL_PATH)/source.properties

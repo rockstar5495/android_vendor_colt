@@ -1,55 +1,20 @@
-# Inherit common mobile Lineage stuff
-$(call inherit-product, vendor/lineage/config/common.mk)
+# Inherit common mobile Colt stuff
+$(call inherit-product, vendor/colt/config/common.mk)
 
 # Include AOSP audio files
-include vendor/lineage/config/aosp_audio.mk
+include vendor/colt/config/aosp_audio.mk
 
-# Include Lineage audio files
-include vendor/lineage/config/lineage_audio.mk
+# Include Colt audio files
+include vendor/colt/config/colt_audio.mk
 
 # Default notification/alarm sounds
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.config.notification_sound=Argon.ogg \
     ro.config.alarm_alert=Hassium.ogg
 
-# Apps
-PRODUCT_PACKAGES += \
-    Aperture \
-    Backgrounds \
-    Eleven \
-    Etar \
-    ExactCalculator \
-    Jelly \
-    Profiles \
-    Seedvault
-
 ifneq ($(TARGET_EXCLUDES_AUDIOFX),true)
 PRODUCT_PACKAGES += \
     AudioFX
-endif
-
-ifeq ($(PRODUCT_TYPE), go)
-PRODUCT_PACKAGES += \
-    TrebuchetQuickStepGo
-
-PRODUCT_DEXPREOPT_SPEED_APPS += \
-    TrebuchetQuickStepGo
-else
-PRODUCT_PACKAGES += \
-    TrebuchetQuickStep
-
-PRODUCT_DEXPREOPT_SPEED_APPS += \
-    TrebuchetQuickStep
-endif
-
-# Charger
-PRODUCT_PACKAGES += \
-    charger_res_images
-
-ifneq ($(WITH_LINEAGE_CHARGER),false)
-PRODUCT_PACKAGES += \
-    lineage_charger_animation \
-    lineage_charger_animation_vendor
 endif
 
 # Customizations
@@ -85,7 +50,6 @@ PRODUCT_PACKAGES += \
     IconShapeTaperedRectOverlay \
     IconShapeTeardropOverlay \
     IconShapeVesselOverlay \
-    LineageNavigationBarNoHint
 
 # Media
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
@@ -97,6 +61,4 @@ PRODUCT_PACKAGES += \
 
 # Themes
 PRODUCT_PACKAGES += \
-    LineageBlackTheme \
-    ThemePicker \
-    ThemesStub
+    ThemePicker

@@ -1,38 +1,46 @@
-PRODUCT_VERSION_MAJOR = 20
-PRODUCT_VERSION_MINOR = 0
+# ColtOS Versioning System
+COLT_MAJOR_VERSION = 13.0
+COLT_RELEASE_VERSION = v13.2
+COLT_BUILD_TYPE ?= Unofficial
+COLT_BUILD_VARIANT ?= Vanilla
+COLT_BUILD_MAINTAINER ?= Unknown
 
-ifeq ($(LINEAGE_VERSION_APPEND_TIME_OF_DAY),true)
-    LINEAGE_BUILD_DATE := $(shell date -u +%Y%m%d_%H%M%S)
-else
-    LINEAGE_BUILD_DATE := $(shell date -u +%Y%m%d)
+ifeq ($(WITH_GAPPS), true)
+COLT_BUILD_VARIANT := GApps
 endif
 
-# Set LINEAGE_BUILDTYPE from the env RELEASE_TYPE, for jenkins compat
-
-ifndef LINEAGE_BUILDTYPE
-    ifdef RELEASE_TYPE
-        # Starting with "LINEAGE_" is optional
-        RELEASE_TYPE := $(shell echo $(RELEASE_TYPE) | sed -e 's|^LINEAGE_||g')
-        LINEAGE_BUILDTYPE := $(RELEASE_TYPE)
+# Colt Release
+ifeq ($(COLT_BUILD_TYPE), Official)
+  OFFICIAL_DEVICES = $(shell cat vendor/colt/enigma.devices)
+  FOUND_DEVICE =  $(filter $(COLT_BUILD), $(OFFICIAL_DEVICES))
+    ifeq ($(FOUND_DEVICE),$(COLT_BUILD))
+      COLT_BUILD_TYPE := Official
+    else
+      COLT_BUILD_TYPE := Unofficial
+      $(error Device is not official "$(COLT_BUILD)")
     endif
 endif
 
-# Filter out random types, so it'll reset to UNOFFICIAL
-ifeq ($(filter RELEASE NIGHTLY SNAPSHOT EXPERIMENTAL,$(LINEAGE_BUILDTYPE)),)
-    LINEAGE_BUILDTYPE := UNOFFICIAL
-    LINEAGE_EXTRAVERSION :=
-endif
+# System version
+TARGET_PRODUCT_SHORT := $(subst colt_,,$(COLT_BUILD_TYPE))
 
-ifeq ($(LINEAGE_BUILDTYPE), UNOFFICIAL)
-    ifneq ($(TARGET_UNOFFICIAL_BUILD_ID),)
-        LINEAGE_EXTRAVERSION := -$(TARGET_UNOFFICIAL_BUILD_ID)
-    endif
-endif
+COLT_DATE_YEAR := $(shell date -u +%Y)
+COLT_DATE_MONTH := $(shell date -u +%m)
+COLT_DATE_DAY := $(shell date -u +%d)
+COLT_DATE_HOUR := $(shell date -u +%H)
+COLT_DATE_MINUTE := $(shell date -u +%M)
 
-LINEAGE_VERSION_SUFFIX := $(LINEAGE_BUILD_DATE)-$(LINEAGE_BUILDTYPE)$(LINEAGE_EXTRAVERSION)-$(LINEAGE_BUILD)
+COLT_BUILD_DATE := $(COLT_DATE_YEAR)$(COLT_DATE_MONTH)$(COLT_DATE_DAY)-$(COLT_DATE_HOUR)$(COLT_DATE_MINUTE)
+COLT_BUILD_VERSION := $(COLT_MAJOR_VERSION)-$(COLT_RELEASE_VERSION)
+COLT_BUILD_FINGERPRINT := ColtOS/$(COLT_MOD_VERSION)/$(TARGET_PRODUCT_SHORT)/$(COLT_BUILD_DATE)
+COLT_VERSION := ColtOS-$(COLT_BUILD_VERSION)-$(COLT_BUILD_VARIANT)-$(COLT_BUILD)-$(COLT_BUILD_TYPE)-$(COLT_BUILD_DATE)
 
-# Internal version
-LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(LINEAGE_VERSION_SUFFIX)
-
-# Display version
-LINEAGE_DISPLAY_VERSION := $(PRODUCT_VERSION_MAJOR)-$(LINEAGE_VERSION_SUFFIX)
+PRODUCT_GENERIC_PROPERTIES += \
+  ro.colt.device=$(COLT_BUILD) \
+  ro.colt.version=$(COLT_VERSION) \
+  ro.colt.build.version=$(COLT_BUILD_VERSION) \
+  ro.colt.build.variant=$(COLT_BUILD_VARIANT) \
+  ro.colt.build.type=$(COLT_BUILD_TYPE) \
+  ro.colt.build.date=$(COLT_BUILD_DATE) \
+  ro.colt.build.fingerprint=$(COLT_BUILD_FINGERPRINT) \
+  ro.colt.build.maintainer=$(COLT_BUILD_MAINTAINER)

@@ -4,22 +4,12 @@ ADDITIONAL_SYSTEM_PROPERTIES += \
     ro.build.fingerprint=$(BUILD_FINGERPRINT)
 endif
 
-# LineageOS System Version
+# ColtOS Platform Display Version
 ADDITIONAL_SYSTEM_PROPERTIES += \
-    ro.lineage.version=$(LINEAGE_VERSION) \
-    ro.lineage.releasetype=$(LINEAGE_BUILDTYPE) \
-    ro.lineage.build.version=$(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR) \
-    ro.modversion=$(LINEAGE_VERSION) \
-    ro.lineagelegal.url=https://lineageos.org/legal
-
-# LineageOS Platform Display Version
-ADDITIONAL_SYSTEM_PROPERTIES += \
-    ro.lineage.display.version=$(LINEAGE_DISPLAY_VERSION)
-
-# LineageOS Platform SDK Version
-ADDITIONAL_SYSTEM_PROPERTIES += \
-    ro.lineage.build.version.plat.sdk=$(LINEAGE_PLATFORM_SDK_VERSION)
-
-# LineageOS Platform Internal Version
-ADDITIONAL_SYSTEM_PROPERTIES += \
-    ro.lineage.build.version.plat.rev=$(LINEAGE_PLATFORM_REV)
+    ro.colt.display.version=$(COLT_DISPLAY_VERSION) \
+    ro.colt.build.version=$(COLT_BUILD_VERSION) \
+    ro.colt.build.date=$(BUILD_DATE) \
+    ro.colt.buildtype=$(COLT_BUILD_TYPE) \
+    ro.colt.fingerprint=$(ROM_FINGERPRINT) \
+    ro.colt.version=$(COLT_VERSION) \
+    ro.modversion=$(COLT_VERSION)
