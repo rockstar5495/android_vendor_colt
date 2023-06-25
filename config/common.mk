@@ -50,6 +50,9 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
 endif
 endif
 
+# Colt Versioning
+include vendor/colt/config/version.mk
+
 # Colt-specific broadcast actions whitelist
 PRODUCT_COPY_FILES += \
     vendor/colt/config/permissions/colt-sysconfig.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/sysconfig/colt-sysconfig.xml
