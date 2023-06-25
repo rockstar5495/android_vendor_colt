@@ -98,10 +98,6 @@ endif
 PRODUCT_PACKAGES += \
     Aperture
 
-# Bootanimation
-TARGET_SCREEN_WIDTH ?= 1080
-TARGET_SCREEN_HEIGHT ?= 1920
-
 # Config
 PRODUCT_PACKAGES += \
     SimpleDeviceConfig
