@@ -73,6 +73,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     ro.control_privapp_permissions=enforce
 
+# GAPPS
+ifeq ($(WITH_GAPPS), true)
+$(call inherit-product, vendor/gapps/common/common-vendor.mk)
+endif
+
 # Do not include art debug targets
 PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false
 
